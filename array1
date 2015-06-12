@@ -1,0 +1,84 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int main()
+{
+	int n,i,m,allnegative;
+	allnegative=1;
+	cout<<"Enter the size of the array\n";
+	cin>>n;
+
+	int arr[n];
+
+	for(i=0;i<n;i++)
+	{
+		cin>>arr[i];
+		if(arr[i]>=0)
+		{
+			allnegative=0;
+		}
+	}
+
+	if(allnegative)
+	{
+		sort(arr,arr+n);
+		cout<<"The biggest sum is :"<<arr[n-1]<<"\n";
+	}
+
+	else
+	{
+		int maxsum=0;
+		int sum;
+		int max_start,max_end;
+		int temp_start,temp_end;
+		temp_start=temp_end=0;
+		sum=0;
+
+		for(i=0;i<n;i++)
+		{
+
+			if(arr[i]<0)
+			{
+				
+				if(sum>=maxsum)
+				{
+					maxsum=sum;
+					max_start=temp_start;
+					max_end=temp_end;
+				}
+
+				while((arr[i]<0)&&(i<n-1))  // search for next +ve number 
+				{
+					temp_start=temp_end=i+1;
+					i++;
+				}
+
+				sum=arr[i];  // starting sum of the next series is the first +ve element
+			}
+			
+			else
+			{
+				sum+=arr[i];
+				temp_end=i;
+			}	
+
+		}
+
+		if(sum>=maxsum)
+		{
+			maxsum=sum;
+			max_start=temp_start;
+			max_end=temp_end;
+		}
+
+		cout<<"The maximum sum is : "<<maxsum<<"\n";
+		cout<<"And the series is: \n";
+		for(i=max_start;i<=max_end;i++)
+		{
+			cout<<arr[i]<<" "; 
+		}
+	}
+
+}
