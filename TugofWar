@@ -1,0 +1,80 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int checkdiff(int A1[],int A2[],int index1,int index2)
+{
+	int sum1,sum2;
+	sum1=sum2=0;
+
+	while(index1>=0)
+	{
+		index1--;
+		sum1+=A1[index1];
+	}
+
+	while(index2>=0)
+	{
+		index2--;
+		sum2+=A2[index2];
+	}
+
+	return abs(sum1-sum2);
+
+
+}
+
+int main()
+{
+	int ar[]={31, 90, 50, 110, 100};
+	int size=10;
+	int A1[5],A2[5];
+	int num=0;
+
+	int LIMIT=pow(2,5)-1;
+
+	int min= 10000;
+
+	while(num<LIMIT)		// number goes from 0 to 2^5 -1 
+	{
+		int checker=1;
+		int index1,index2;
+
+		index1=index2=0;
+		int counter=0;
+		while(counter<5 ) // loop for checking each bit of the number 
+		{		
+			if(num & checker)
+			{	
+				A1[index1]=ar[counter];
+				counter++;
+				index1++;
+
+			}
+
+			else
+			{
+				A2[index2]=ar[counter];
+				counter++;
+				index2++;
+			}
+
+			checker*=2;
+
+
+		}
+		// bit checking loop ends, check the difference between arrays now 
+		if(abs(index2-index1)<=1)  // if number of elements are almost equal 
+		{
+			int newmin= checkdiff(A1,A2,index1,index2); // check diff between the new arrays formed 
+			min=( (newmin<min)? newmin: min );		
+		}
+		num++;
+	}
+	
+	cout<<"The minimum diff is "<<min<<"\n";	
+
+
+
+}
